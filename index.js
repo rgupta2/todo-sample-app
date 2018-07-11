@@ -3,10 +3,13 @@
 let express = require('express');
 let routes = require('./routes/index');
 
+let cors = require('cors');
+
 let bodyParser = require("body-parser");
 
-//then we call express
 let app = express();
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
