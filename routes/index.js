@@ -23,7 +23,7 @@ let todos = [{
 // get route for listing all todos
 router.get('/todo/all', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(todos));
+    res.json(todos);
 });
 
 //get route to retrieve a specific todo
@@ -33,9 +33,9 @@ router.get('/todo/:id', function (req, res) {
 
     if (response && response.length > 0) {
         response = response[0];
-        res.send(JSON.stringify(response));
+        res.json(response);
     } else {
-        res.status(404).send(JSON.stringify({'errorMessage': 'Not found'}));
+        res.status(404).json({'errorMessage': 'Not found'});
     }
 });
 
@@ -47,9 +47,9 @@ router.post('/todo/:id/toggle', function (req, res) {
     if (todoToBeToggled && todoToBeToggled.length > 0) {
         todoToBeToggled = todoToBeToggled[0];
         todoToBeToggled.completed = !todoToBeToggled.completed;
-        res.send(JSON.stringify(todoToBeToggled));
+        res.json(todoToBeToggled);
     } else {
-        res.status(404).send(JSON.stringify({'errorMessage': 'Not found'}));
+        res.status(404).json({'errorMessage': 'Not found'});
     }
 });
 
@@ -61,9 +61,9 @@ router.delete('/todo/:id', function (req, res) {
     const newtodoCount = todos.length;
 
     if (newtodoCount < oldtodoCount) {
-        res.send(JSON.stringify(todos));
+        res.status(204).json({});
     } else {
-        res.status(404).send(JSON.stringify({'errorMessage': 'todo doesn\'t exist found'}));
+        res.status(404).json({'errorMessage': 'todo doesn\'t exist found'});
     }
 });
 
@@ -76,7 +76,7 @@ router.post('/todo/add', function (req, res) {
     todos.push(newtodo);
 
     //after adding to the array go back to the root route
-    res.send(JSON.stringify(todos));
+    res.json(todos);
 });
 
 module.exports = router;
