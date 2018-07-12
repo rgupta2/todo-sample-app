@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
     res.send('todo app: GET /todo/all, GET todo/:id, DELETE todo/:id, POST /todo/add, POST /todo/:id/toggle');
 });
 
-let globalTodoId = 0;
+let globalTodoId = 1;
 
 // the todo array with initial placeholders for added todo
 let todos = [];
@@ -75,7 +75,7 @@ router.post('/todo/add', function (req, res) {
 
     //add the new todo from the post route into the array
     todos.push(newtodo);
-    
+
     //after adding to the array go back to the root route
     res.json(newtodo);
 });
