@@ -12,13 +12,10 @@ router.get('/', function (req, res) {
     res.send('todo app: GET /todo/all, GET todo/:id, DELETE todo/:id, POST /todo/add, POST /todo/:id/toggle');
 });
 
+let globalTodoId = 0;
 
-//the todo array with initial placeholders for added todo
-let todos = [{
-    id: 1,
-    text: "practise with nodejs",
-    completed: false
-}];
+// the todo array with initial placeholders for added todo
+let todos = [];
 
 // get route for listing all todos
 router.get('/todo/all', function (req, res) {
@@ -28,6 +25,7 @@ router.get('/todo/all', function (req, res) {
 
 //get route to retrieve a specific todo
 router.get('/todo/:id', function (req, res) {
+    console.log('get id',req.params);
     res.setHeader('Content-Type', 'application/json');
     let response = todos.filter((x) => x.id === parseInt(req.params.id));
 
@@ -41,6 +39,7 @@ router.get('/todo/:id', function (req, res) {
 
 //get route to retrieve a specific todo
 router.post('/todo/:id/toggle', function (req, res) {
+    console.log('toggle id',req.params);
     res.setHeader('Content-Type', 'application/json');
     let todoToBeToggled = todos.filter((x) => x.id === parseInt(req.params.id));
 
@@ -55,6 +54,7 @@ router.post('/todo/:id/toggle', function (req, res) {
 
 //get route to retrieve a specific todo
 router.delete('/todo/:id', function (req, res) {
+    console.log('delete id',req.params);
     res.setHeader('Content-Type', 'application/json');
     const oldtodoCount = todos.length;
     todos = todos.filter((x) => x.id !== parseInt(req.params.id));
@@ -69,14 +69,15 @@ router.delete('/todo/:id', function (req, res) {
 
 //post route for adding new todo
 router.post('/todo/add', function (req, res) {
+    console.log('add todo',req.body);
     res.setHeader('Content-Type', 'application/json');
-    const newtodo = req.body;
+    const newtodo = {id: globalTodoId++, text: req.body.text, completed: false};
 
     //add the new todo from the post route into the array
     todos.push(newtodo);
-
+    
     //after adding to the array go back to the root route
-    res.json(todos);
+    res.json(newtodo);
 });
 
 module.exports = router;
